@@ -86,17 +86,7 @@ class Walker_UIKIT extends Walker {
      * @param array  $args   An array of arguments. @see wp_nav_menu()
      * @param int    $id     Current item ID.
      */
-    public function display_element($element, &$children_elements, $max_depth, $depth, $args, &$output) {
-        
-        if (!$element) return;
-
-        $id_field = $this->db_fields['id'];
-        // Display this element.
-        
-        if (is_object($args[0])) $args[0]->has_children = !empty($children_elements[$element->$id_field]);
-
-        parent::display_element($element, $children_elements, $max_depth, $depth, $args, $output);
-    }
+   
   
     function start_el(&$output, $item, $depth = 0, $args = array() , $id = 0) {
         $indent = ($depth) ? str_repeat("\t", $depth) : '';
