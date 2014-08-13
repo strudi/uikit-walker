@@ -67,7 +67,7 @@ class Walker_UIKIT extends Walker {
         $indent = str_repeat("\t", $depth);
         $output.= "$indent</ul>\n";
         
-        if ($this->has_children && depth == 0) {
+        if ($this->has_children && $depth == 0) {
 
             $indent = "\t$indent";
             $output.= "$indent</div>\n";
