@@ -66,12 +66,7 @@ class Walker_UIKIT extends Walker {
     function end_lvl(&$output, $depth = 0, $args = array()) {
         $indent = str_repeat("\t", $depth);
         $output.= "$indent</ul>\n";
-        
-        if ($this->has_children && $depth == 0) {
-
-            $indent = "\t$indent";
-            $output.= "$indent</div>\n";
-        }
+             
     }
     /**
      * Start the element output.
@@ -207,6 +202,12 @@ class Walker_UIKIT extends Walker {
      * @param array  $args   An array of arguments. @see wp_nav_menu()
      */
     function end_el(&$output, $item, $depth = 0, $args = array()) {
+        $classes = empty($item->classes) ? array() : (array)$item->classes;
+         $has_children = in_array('menu-item-has-children', $classes);
+          if ($has_children && $depth == 0) {
+            
+            $output.= "</div>\n";
+        }
         $output.= "</li>\n";
     }
 } // Walker_Nav_Menu
