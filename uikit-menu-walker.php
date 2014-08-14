@@ -203,8 +203,8 @@ class Walker_UIKIT extends Walker {
      */
     function end_el(&$output, $item, $depth = 0, $args = array()) {
         $classes = empty($item->classes) ? array() : (array)$item->classes;
-         $has_children = in_array('menu-item-has-children', $classes);
-          if ($has_children && $depth == 0) {
+        $has_children = in_array('menu-item-has-children', $classes);
+        if ($has_children && $depth == 0) {
             
             $output.= "</div>\n";
         }
