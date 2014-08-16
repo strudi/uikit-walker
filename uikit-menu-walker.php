@@ -84,6 +84,7 @@ class Walker_UIKIT extends Walker {
    
   
     function start_el(&$output, $item, $depth = 0, $args = array() , $id = 0) {
+    
         $indent = ($depth) ? str_repeat("\t", $depth) : '';
         $class_names = $value = '';
         $classes = empty($item->classes) ? array() : (array)$item->classes;
@@ -166,13 +167,14 @@ class Walker_UIKIT extends Walker {
                 $attributes.= ' ' . $attr . '="' . $value . '"';
             }
         }
-
+       
         $item_output = $args->before;
-        $item_output.= '<a' . $attributes . '>';
+        $item_output .= '<a'. $attributes .'>';
         /** This filter is documented in wp-includes/post-template.php */
-        $item_output.= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
-        $item_output.= '</a>';
-        $item_output.= $args->after;
+        $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+        $item_output .= '</a>';
+        $item_output .= $args->after;
+       
         /**
          * Filter a menu item's starting output.
          *
@@ -187,6 +189,7 @@ class Walker_UIKIT extends Walker {
          * @param int    $depth       Depth of menu item. Used for padding.
          * @param array  $args        An array of arguments. @see wp_nav_menu()
          */
+       
         $output.= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
     }
     /**
@@ -210,4 +213,42 @@ class Walker_UIKIT extends Walker {
         }
         $output.= "</li>\n";
     }
+    public static function fallback( $args ) {
+        if ( current_user_can( 'manage_options' ) ) {
+
+            extract( $args );
+
+            $fb_output = null;
+
+            if ( $container ) {
+                $fb_output = '<' . $container;
+
+                if ( $container_id )
+                    $fb_output .= ' id="' . $container_id . '"';
+
+                if ( $container_class )
+                    $fb_output .= ' class="' . $container_class . '"';
+
+                $fb_output .= '>';
+            }
+
+            $fb_output .= '<ul';
+
+            if ( $menu_id )
+                $fb_output .= ' id="' . $menu_id . '"';
+
+            if ( $menu_class )
+                $fb_output .= ' class="' . $menu_class . '"';
+
+            $fb_output .= '>';
+            $fb_output .= '<li><a href="' . admin_url( 'nav-menus.php' ) . '">Add a menu</a></li>';
+            $fb_output .= '</ul>';
+
+            if ( $container )
+                $fb_output .= '</' . $container . '>';
+
+            echo $fb_output;
+        }
+    }
 } // Walker_Nav_Menu
+
